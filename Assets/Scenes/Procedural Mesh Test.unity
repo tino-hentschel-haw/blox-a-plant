@@ -260,7 +260,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1133454950}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 3.73}
+  m_LocalPosition: {x: 0.82, y: 0, z: 3.73}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1659595411}
@@ -329,12 +329,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shape2D: {fileID: 11400000, guid: 54a2c787e3c940749a489132bc68d4a8, type: 2}
   edgeRingCount: 9
+  edgeRingScale: 0.1
+  edgeRingScaleFactorPerSegment: 0
+  bezierStart: {fileID: 1216060770}
+  bezierStartTangent: {fileID: 1133454951}
+  bezierEnd: {fileID: 442275389}
+  bezierEndTangent: {fileID: 1800369700}
   tTest: 0
-  controlPoints:
-  - {fileID: 1216060770}
-  - {fileID: 1133454951}
-  - {fileID: 1800369700}
-  - {fileID: 442275389}
 --- !u!33 &1659595410
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -519,7 +520,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1800369699}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.39, y: 4.48, z: 6.95}
+  m_LocalPosition: {x: -1.55, y: 4.48, z: 6.95}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1659595411}
