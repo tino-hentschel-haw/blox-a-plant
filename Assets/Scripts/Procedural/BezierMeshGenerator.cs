@@ -23,8 +23,11 @@ namespace blox.procedural
         [SerializeField] private Transform bezierEnd;
         [SerializeField] private Transform bezierEndTangent;
 
+        [Header("Debug Gizmos")]
         [Range(0, 1)] [SerializeField] private float tTest = 0;
 
+        [SerializeField] private float controlPointRadius = 0.1f;
+        
         private Mesh mesh;
 
         private void Awake()
@@ -99,8 +102,6 @@ namespace blox.procedural
         private void OnDrawGizmos()
         {
 #if UNITY_EDITOR
-            var controlPointRadius = 0.15f;
-
             var startPosition = bezierStart.position;
             var endPosition = bezierEnd.position;
             var startTangent = bezierStartTangent.position;
