@@ -1,9 +1,12 @@
+using System.Linq;
 using UnityEngine;
 using UnityEditor;
 
 [RequireComponent(typeof(MeshFilter))]
 public class Segment : MonoBehaviour
 {
+    public Mesh2D Shape2D;
+
     [Range(0, 1)] [SerializeField] private float tTest = 0;
 
     [SerializeField] private Transform[] controlPoints = new Transform[4];
@@ -19,25 +22,38 @@ public class Segment : MonoBehaviour
 
         Handles.DrawBezier(GetPos(0), GetPos(3), GetPos(1), GetPos(2), Color.white, EditorGUIUtility.whiteTexture, 1f);
 
-        
+
         var testPoint = GetBezierOrientedPoint(tTest);
-        var radius = 0.01f;
+        var radius = 0.15f;
         void DrawPoint(Vector3 localPos) => Gizmos.DrawSphere(testPoint.LocalToWorld(localPos), radius);
-        
+
 
         Handles.PositionHandle(testPoint.Position, testPoint.Rotation);
-        
-        Gizmos.color = Color.red;
-        
-        DrawPoint(Vector3.right * 0.1f);
-        DrawPoint(Vector3.right * 0.2f);
-        DrawPoint(Vector3.right * -0.1f);
-        DrawPoint(Vector3.right * -0.2f);
-        
-        DrawPoint(Vector3.up * 0.1f);
-        DrawPoint(Vector3.up * 0.2f);
 
-        Gizmos.color = Color.white;
+        // Gizmos.color = Color.red;
+        //
+
+        // Calculate World Vertices for each local Vertex of the Shape
+        var verts = Shape2D.Vertices.Select(v => testPoint.LocalToWorld(v.Point)).ToArray();
+
+
+        for (var i = 0; i < Shape2D.LineIndices.Length; i += 2)
+        {
+            var a = verts[Shape2D.LineIndices[i]];
+            var b = verts[Shape2D.LineIndices[i + 1]];
+
+            Gizmos.DrawLine(a, b);
+        }
+
+        // foreach (var t in Shape2D.Vertices)
+        // {
+        //     DrawPoint(t.Point);
+        //     
+        //     // DrawPoint(Shape2D.Vertices[i].Point * 0.5f);
+        // }
+
+
+        // Gizmos.color = Color.white;
     }
 
     private OrientedPoint GetBezierOrientedPoint(float t)
@@ -55,7 +71,7 @@ public class Segment : MonoBehaviour
         var e = Vector3.Lerp(b, c, t);
 
         var pos = Vector3.Lerp(d, e, t);
-        var tangent = (e-d).normalized;
+        var tangent = (e - d).normalized;
 
         return new OrientedPoint(pos, tangent);
     }
