@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEditor;
@@ -5,13 +7,82 @@ using UnityEditor;
 [RequireComponent(typeof(MeshFilter))]
 public class Segment : MonoBehaviour
 {
-    public Mesh2D Shape2D;
+    [SerializeField] private Mesh2D shape2D;
+    [Range(2, 32)] [SerializeField] private int edgeRingCount = 8;
+
 
     [Range(0, 1)] [SerializeField] private float tTest = 0;
 
     [SerializeField] private Transform[] controlPoints = new Transform[4];
 
+    private Mesh mesh;
+
     private Vector3 GetPos(int i) => controlPoints[i].position;
+
+
+    private void Awake()
+    {
+        mesh = new Mesh {name = "Segment"};
+        GetComponent<MeshFilter>().sharedMesh = mesh;
+    }
+
+    private void Update() => GenerateMesh();
+
+    private void GenerateMesh()
+    {
+        mesh.Clear();
+
+        List<Vector3> verts = new List<Vector3>();
+
+        for (var ring = 0; ring < edgeRingCount; ring++)
+        {
+            var t = ring / (edgeRingCount - 1f);
+            var orientedPoint = GetBezierOrientedPoint(t);
+
+            for (var i = 0; i < shape2D.VertexCount; i++)
+            {
+                // scaling should probably happen here ...
+
+                verts.Add(orientedPoint.LocalToWorldPosition(shape2D.Vertices[i].Point));
+            }
+        }
+
+        // Triangles
+        List<int> triangleIndices = new List<int>();
+        
+        for (var ring = 0; ring < edgeRingCount - 1; ring++)
+        {
+            var rootIndex = ring * shape2D.VertexCount;
+            var rootIndexNext = (ring + 1) * shape2D.VertexCount;
+
+            // line means on line on the 2D shape
+            for (var line = 0; line < shape2D.LineCount; line+=2)
+            {
+                var lineIndexA = shape2D.LineIndices[line];
+                var lineIndexB = shape2D.LineIndices[line+1];
+
+                var currentA = rootIndex + lineIndexA;
+                var currentB = rootIndex + lineIndexB;
+                var nextA = rootIndexNext + lineIndexA;
+                var nextB = rootIndexNext + lineIndexB;
+                
+                // Every Quad of the mesh that we are generating consists of two triangles connecting vertices from one edgeRing to the next one.
+                
+                // Triangle 1
+                triangleIndices.Add(currentA);
+                triangleIndices.Add(nextA);
+                triangleIndices.Add(nextB);
+                
+                // Triangle 2
+                triangleIndices.Add(currentA);
+                triangleIndices.Add(nextB);
+                triangleIndices.Add(currentB);
+            }
+        }
+        
+        mesh.SetVertices(verts);
+        mesh.SetTriangles(triangleIndices, 0);
+    }
 
     private void OnDrawGizmos()
     {
@@ -25,7 +96,7 @@ public class Segment : MonoBehaviour
 
         var testPoint = GetBezierOrientedPoint(tTest);
         var radius = 0.15f;
-        void DrawPoint(Vector3 localPos) => Gizmos.DrawSphere(testPoint.LocalToWorld(localPos), radius);
+        void DrawPoint(Vector3 localPos) => Gizmos.DrawSphere(testPoint.LocalToWorldPosition(localPos), radius);
 
 
         Handles.PositionHandle(testPoint.Position, testPoint.Rotation);
@@ -34,22 +105,22 @@ public class Segment : MonoBehaviour
         //
 
         // Calculate World Vertices for each local Vertex of the Shape
-        var verts = Shape2D.Vertices.Select(v => testPoint.LocalToWorld(v.Point)).ToArray();
+        var verts = shape2D.Vertices.Select(v => testPoint.LocalToWorldPosition(v.Point)).ToArray();
 
 
-        for (var i = 0; i < Shape2D.LineIndices.Length; i += 2)
+        for (var i = 0; i < shape2D.LineIndices.Length; i += 2)
         {
-            var a = verts[Shape2D.LineIndices[i]];
-            var b = verts[Shape2D.LineIndices[i + 1]];
+            var a = verts[shape2D.LineIndices[i]];
+            var b = verts[shape2D.LineIndices[i + 1]];
 
             Gizmos.DrawLine(a, b);
         }
 
-        // foreach (var t in Shape2D.Vertices)
+        // foreach (var t in shape2D.Vertices)
         // {
         //     DrawPoint(t.Point);
         //     
-        //     // DrawPoint(Shape2D.Vertices[i].Point * 0.5f);
+        //     // DrawPoint(shape2D.Vertices[i].Point * 0.5f);
         // }
 
 

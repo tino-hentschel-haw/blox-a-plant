@@ -17,9 +17,14 @@ public struct OrientedPoint
         Rotation = Quaternion.LookRotation(forward);
     }
 
-    public Vector3 LocalToWorld(Vector3 localSpacePoint)
+    public Vector3 LocalToWorldPosition(Vector3 localSpacePoint)
     {
         // Rotation * localSpacePoint => Local To World conversation for a rotation.
         return Position + Rotation * localSpacePoint;
+    }
+    
+    public Vector3 LocalToWorldVector(Vector3 localSpacePoint)
+    {
+        return Rotation * localSpacePoint;
     }
 }
