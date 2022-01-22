@@ -1,46 +1,67 @@
+using blox.procedural;
 using UnityEngine;
 
-/// <summary>
-/// TODO This is demo code! Refactor or remove this hacky mess ...
-/// </summary>
-public class Blox : MonoBehaviour
+
+namespace blox
 {
-   [SerializeField] private GameObject bloxGameObject;
-   [SerializeField] private GameObject plantGameObject;
-   [SerializeField] private GameObject plantBezierMeshGameObject;
+    /// <summary>
+    /// TODO This is demo code! Refactor or remove this hacky mess ...
+    /// </summary>
+    public class Blox : MonoBehaviour
+    {
+        [SerializeField] private GameObject bloxGameObject;
+        [SerializeField] private GameObject plantGameObject;
+        
+        [SerializeField] private CubicBezierPart bezierStart;
+        
+        [SerializeField] private BezierMeshGenerator bezierMeshGeneratorPrefab;
+        private BezierMeshGenerator bezierMeshGenerator;
+        
+        private Rigidbody rb;
 
-   private Rigidbody rb;
-   
-   private void Awake()
-   {
-      rb = GetComponent<Rigidbody>();
-   }
+        private void Awake()
+        {
+            rb = GetComponent<Rigidbody>();
+            bezierMeshGenerator = Instantiate(bezierMeshGeneratorPrefab, Vector3.zero, Quaternion.identity);
+            bezierMeshGenerator.SetBezierStart(bezierStart);
+            bezierMeshGenerator.gameObject.SetActive(false);
+        }
 
-   private void OnTriggerEnter(Collider other)
-   {
-      if (!other.CompareTag("plantZone")) 
-         return;
-      
-      bloxGameObject.SetActive(false);
-      plantGameObject.SetActive(true);
-      plantBezierMeshGameObject.SetActive(true);
-      rb.isKinematic = true;
-   }
-   
-   private void OnTriggerExit(Collider other)
-   {
-      if (!other.CompareTag("plantZone")) 
-         return;
-      
-      bloxGameObject.SetActive(true);
-      plantGameObject.SetActive(false);
-      plantBezierMeshGameObject.SetActive(false);
-      rb.isKinematic = false;
-   }
+        private void OnTriggerEnter(Collider other)
+        {
+            var generatorZone = other.GetComponent<GeneratorZone>();
+            
+            if (!generatorZone)
+                return;
 
-   public void TryDisableKinematic()
-   {
-      if (bloxGameObject.activeInHierarchy)
-         rb.isKinematic = false;
-   }
+            var root = generatorZone.Root;
+            transform.SetParent(root.transform);
+            
+            bezierMeshGenerator.SetBezierEnd(root.CubicBezier.End);
+            bezierMeshGenerator.gameObject.SetActive(true);
+           
+            bloxGameObject.SetActive(false);
+            plantGameObject.SetActive(true);
+            
+            rb.isKinematic = true;
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            var generatorZone = other.GetComponent<GeneratorZone>();
+            if (!generatorZone)
+                return;
+
+            bloxGameObject.SetActive(true);
+            plantGameObject.SetActive(false);
+            bezierMeshGenerator.gameObject.SetActive(false);
+            rb.isKinematic = false;
+        }
+
+        public void TryDisableKinematic()
+        {
+            if (bloxGameObject.activeInHierarchy)
+                rb.isKinematic = false;
+        }
+    }
 }
