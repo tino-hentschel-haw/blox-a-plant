@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7849411386315594437}
   - component: {fileID: 8520070033279726431}
   m_Layer: 0
-  m_Name: BezierMeshGenerator_PlantStem Leaf
+  m_Name: BezierMeshGenerator_PlantStem Connector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

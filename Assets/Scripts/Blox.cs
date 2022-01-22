@@ -1,5 +1,6 @@
 using blox.procedural;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 
 namespace blox
@@ -9,59 +10,101 @@ namespace blox
     /// </summary>
     public class Blox : MonoBehaviour
     {
-        [SerializeField] private GameObject bloxGameObject;
-        [SerializeField] private GameObject plantGameObject;
-        
-        [SerializeField] private CubicBezierPart bezierStart;
-        
+        [SerializeField] protected GameObject bloxGameObject;
+        [SerializeField] protected GameObject plantGameObject;
+
+        [FormerlySerializedAs("bezierStart")] [SerializeField]
+        protected CubicBezierPart bezierStartRoot;
+
+        [SerializeField] protected CubicBezierPart bezierStartConnector;
+
         [SerializeField] private BezierMeshGenerator bezierMeshGeneratorPrefab;
-        private BezierMeshGenerator bezierMeshGenerator;
-        
-        private Rigidbody rb;
+        protected BezierMeshGenerator bezierMeshGenerator;
+
+        protected Rigidbody rb;
+        protected BoxCollider boxCollider;
+
+        public bool Selected { get; protected set; }
+        public bool InGeneratorZone { get; protected set; }
 
         private void Awake()
         {
             rb = GetComponent<Rigidbody>();
+            boxCollider = GetComponent<BoxCollider>();
             bezierMeshGenerator = Instantiate(bezierMeshGeneratorPrefab, Vector3.zero, Quaternion.identity);
-            bezierMeshGenerator.SetBezierStart(bezierStart);
+            bezierMeshGenerator.SetBezierStart(bezierStartRoot);
             bezierMeshGenerator.gameObject.SetActive(false);
         }
 
-        private void OnTriggerEnter(Collider other)
+        protected virtual void OnTriggerEnter(Collider other)
         {
-            var generatorZone = other.GetComponent<GeneratorZone>();
+            Debug.Log("Trigger Enter " + gameObject.name);
             
+            var generatorZone = other.GetComponent<GeneratorZone>();
             if (!generatorZone)
                 return;
+
+            InGeneratorZone = true;
 
             var root = generatorZone.Root;
+            root.AddBlox(this);
             transform.SetParent(root.transform);
-            
+
             bezierMeshGenerator.SetBezierEnd(root.CubicBezier.End);
             bezierMeshGenerator.gameObject.SetActive(true);
-           
+
             bloxGameObject.SetActive(false);
             plantGameObject.SetActive(true);
-            
+
             rb.isKinematic = true;
+            boxCollider.isTrigger = true;
         }
 
-        private void OnTriggerExit(Collider other)
+        protected virtual void OnTriggerExit(Collider other)
         {
+            Debug.Log("Trigger Exit " + gameObject.name);
+            
             var generatorZone = other.GetComponent<GeneratorZone>();
             if (!generatorZone)
                 return;
+            
+            InGeneratorZone = false;
+
+            var root = generatorZone.Root;
+            root.RemoveBlox(this);
+            transform.SetParent(null);
 
             bloxGameObject.SetActive(true);
             plantGameObject.SetActive(false);
             bezierMeshGenerator.gameObject.SetActive(false);
-            rb.isKinematic = false;
+            //rb.isKinematic = false;
+            boxCollider.isTrigger = false;
         }
 
         public void TryDisableKinematic()
         {
-            if (bloxGameObject.activeInHierarchy)
+            if (!InGeneratorZone)
                 rb.isKinematic = false;
+        }
+
+        public void SetSelected(bool isSelected)
+        {
+            Selected = isSelected;
+        }
+
+        public void SetBezierStartToRoot()
+        {
+            bezierMeshGenerator.SetBezierStart(bezierStartRoot);
+        }
+
+        public void SetBezierStartToConnector()
+        {
+            bezierMeshGenerator.SetBezierStart(bezierStartConnector);
+        }
+
+        public void SetBezierEnd(CubicBezierPart bezierEndPart)
+        {
+            bezierMeshGenerator.SetBezierEnd(bezierEndPart);
         }
     }
 }

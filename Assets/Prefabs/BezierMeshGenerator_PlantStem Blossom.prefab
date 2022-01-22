@@ -103,4 +103,4 @@ MonoBehaviour:
   bezierEnd: {fileID: 0}
   bezierEndTangent: {fileID: 0}
   tTest: 0
-  controlPointRadius: 0.03
+  controlPointRadius: 0

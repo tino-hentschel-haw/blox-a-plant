@@ -2931,7 +2931,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0143e5b6049e13429ba2dc0077e7892, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  grabInteractablePrefab: {fileID: 4849745748287750991, guid: 0e60ac1c95f5902409ee8200ec476ef0, type: 3}
+  grabInteractablePrefab: {fileID: 8951582713082416405, guid: db65aaf128f2625499908725448319c4, type: 3}
 --- !u!65 &1039507564
 BoxCollider:
   m_ObjectHideFlags: 0
