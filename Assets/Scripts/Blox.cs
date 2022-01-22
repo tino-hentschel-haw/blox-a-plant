@@ -26,24 +26,26 @@ namespace blox
 
         public bool Selected { get; protected set; }
         public bool InGeneratorZone { get; protected set; }
+        public bool ConnectedToRoot { get; protected set; }
 
         private void Awake()
         {
             rb = GetComponent<Rigidbody>();
             boxCollider = GetComponent<BoxCollider>();
             bezierMeshGenerator = Instantiate(bezierMeshGeneratorPrefab, Vector3.zero, Quaternion.identity);
-            bezierMeshGenerator.SetBezierStart(bezierStartRoot);
+            SetBezierStartToRoot();
             bezierMeshGenerator.gameObject.SetActive(false);
         }
 
         protected virtual void OnTriggerEnter(Collider other)
         {
-            Debug.Log("Trigger Enter " + gameObject.name);
-            
             var generatorZone = other.GetComponent<GeneratorZone>();
             if (!generatorZone)
                 return;
-
+            
+            if(InGeneratorZone)
+                return;
+                
             InGeneratorZone = true;
 
             var root = generatorZone.Root;
@@ -62,10 +64,11 @@ namespace blox
 
         protected virtual void OnTriggerExit(Collider other)
         {
-            Debug.Log("Trigger Exit " + gameObject.name);
-            
             var generatorZone = other.GetComponent<GeneratorZone>();
             if (!generatorZone)
+                return;
+
+            if(!Selected)
                 return;
             
             InGeneratorZone = false;
@@ -83,8 +86,7 @@ namespace blox
 
         public void TryDisableKinematic()
         {
-            if (!InGeneratorZone)
-                rb.isKinematic = false;
+            rb.isKinematic = InGeneratorZone;
         }
 
         public void SetSelected(bool isSelected)
@@ -95,11 +97,13 @@ namespace blox
         public void SetBezierStartToRoot()
         {
             bezierMeshGenerator.SetBezierStart(bezierStartRoot);
+            ConnectedToRoot = true;
         }
 
         public void SetBezierStartToConnector()
         {
             bezierMeshGenerator.SetBezierStart(bezierStartConnector);
+            ConnectedToRoot = false;
         }
 
         public void SetBezierEnd(CubicBezierPart bezierEndPart)

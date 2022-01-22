@@ -17,22 +17,36 @@ namespace blox
             var otherBlox = other.GetComponent<Blox>();
             if (otherBlox)
             {
-                ConnectBlox(otherBlox);
+                if (otherBlox is ConnectorBlox)
+                {
+                    var otherConnector = other.GetComponent<ConnectorBlox>();
+                    if (!otherConnector.ContainsBlox(this))
+                    {
+                        ConnectBlox(otherBlox);
+                    }
+                    
+                    // if(otherBlox.Selected )
+                    //     ConnectBlox(otherBlox);
+                }
+                else
+                {
+                    ConnectBlox(otherBlox);
+                }
             }
 
             base.OnTriggerEnter(other);
         }
 
-        // protected override void OnTriggerExit(Collider other)
-        // {
-        //     // var generatorZone = other.GetComponent<GeneratorZone>();
-        //     // if (generatorZone)
-        //     // {
-        //     //     DisconnectAllBlox();
-        //     // }
-        //     
-        //     base.OnTriggerExit(other);
-        // }
+        protected override void OnTriggerExit(Collider other)
+        {
+            var generatorZone = other.GetComponent<GeneratorZone>();
+            if (generatorZone)
+            {
+                DisconnectAllBlox(generatorZone.Root);
+            }
+            
+            base.OnTriggerExit(other);
+        }
         
         public void ConnectBlox(Blox blox)
         {
@@ -53,10 +67,8 @@ namespace blox
             connectedBlox.Remove(blox);
         }
         
-        public void DisconnectAllBlox()
+        public void DisconnectAllBlox(Root root)
         {
-            var root = transform.parent.GetComponent<Root>();
-
             foreach (var blox in connectedBlox)
             {
                 blox.SetBezierEnd(root.CubicBezier.End);
@@ -64,6 +76,11 @@ namespace blox
             }
             
             connectedBlox.Clear();
+        }
+
+        public bool ContainsBlox(Blox blox)
+        {
+            return connectedBlox.Contains(blox);
         }
     }
 }
