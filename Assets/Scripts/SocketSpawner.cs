@@ -28,8 +28,7 @@ public class SocketSpawner : MonoBehaviour
         if (socketInteractor.hasSelection || !grabInteractablePrefab)
             return;
 
-        var interactable = Instantiate(grabInteractablePrefab);
-        interactable.transform.position = socketInteractor.attachTransform.position;
-        interactable.transform.rotation = socketInteractor.attachTransform.rotation;
+        Instantiate(grabInteractablePrefab, socketInteractor.attachTransform.position,
+            socketInteractor.attachTransform.rotation);
     }
 }
