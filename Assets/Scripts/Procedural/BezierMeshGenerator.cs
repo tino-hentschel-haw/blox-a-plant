@@ -142,5 +142,21 @@ namespace blox.procedural
 
             return new OrientedPoint(pos, tangent);
         }
+        
+        public void SetBezierStart(CubicBezierPart bezierPartStart) => SetBezierStart(bezierPartStart.Point, bezierPartStart.Tangent);
+
+        public void SetBezierStart(Transform bezierStart, Transform bezierStartTangent)
+        {
+            this.bezierStart = bezierStart;
+            this.bezierStartTangent = bezierStartTangent;
+        }
+        
+        public void SetBezierEnd(CubicBezierPart bezierPartEnd) => SetBezierEnd(bezierPartEnd.Point, bezierPartEnd.Tangent);
+        
+        public void SetBezierEnd(Transform bezierEnd, Transform bezierEndTangent)
+        {
+            this.bezierEnd = bezierEnd;
+            this.bezierEndTangent = bezierEndTangent;
+        }
     }
 }
