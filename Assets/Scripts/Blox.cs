@@ -47,6 +47,8 @@ namespace blox
                 return;
                 
             InGeneratorZone = true;
+            
+            // TODO: Play Sound for entering generator zone here ...
 
             var root = generatorZone.Root;
             root.AddBlox(this);
@@ -70,6 +72,8 @@ namespace blox
 
             if(!Selected)
                 return;
+            
+            // TODO: Play Sound for exiting generator zone here ...
             
             InGeneratorZone = false;
 

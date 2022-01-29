@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BloxColor : MonoBehaviour
@@ -12,5 +10,7 @@ public class BloxColor : MonoBehaviour
     {
         BloxGO.GetComponent<MeshRenderer>().material.color = color;
         PlantGO.GetComponent<MeshRenderer>().material.color = color;
+        
+        // TODO Play Sound when changing color here ...
     }
 }
