@@ -5,13 +5,13 @@ using UnityEngine.Serialization;
 
 namespace blox
 {
-    /// <summary>
-    /// TODO This is demo code! Refactor or remove this hacky mess ...
-    /// </summary>
     public class Blox : MonoBehaviour
     {
         [SerializeField] protected GameObject bloxGameObject;
         [SerializeField] protected GameObject plantGameObject;
+        public GameObject BloxGameObject => bloxGameObject;
+        public GameObject PlantGameObject => plantGameObject;
+
 
         [FormerlySerializedAs("bezierStart")] [SerializeField]
         protected CubicBezierPart bezierStartRoot;
@@ -42,12 +42,12 @@ namespace blox
             var generatorZone = other.GetComponent<GeneratorZone>();
             if (!generatorZone)
                 return;
-            
-            if(InGeneratorZone)
+
+            if (InGeneratorZone)
                 return;
-                
+
             InGeneratorZone = true;
-            
+
             // TODO: Play Sound for entering generator zone here ...
 
             var root = generatorZone.Root;
@@ -70,11 +70,11 @@ namespace blox
             if (!generatorZone)
                 return;
 
-            if(!Selected)
+            if (!Selected)
                 return;
-            
+
             // TODO: Play Sound for exiting generator zone here ...
-            
+
             InGeneratorZone = false;
 
             var root = generatorZone.Root;
