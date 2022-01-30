@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1654371712224710440}
   - component: {fileID: 1654371712224710443}
+  - component: {fileID: -7176297257646762404}
   - component: {fileID: 1654371712224710442}
   - component: {fileID: 1654371712224710445}
   - component: {fileID: 1654371712224710444}
-  - component: {fileID: 3153565776619309244}
   m_Layer: 0
   m_Name: Blossom Blox
   m_TagString: Untagged
@@ -58,6 +58,18 @@ MonoBehaviour:
     Point: {fileID: 1654371713231653260}
     Tangent: {fileID: 1654371713898439009}
   bezierMeshGeneratorPrefab: {fileID: 8520070033279726431, guid: e09ba1f00369e73468b3e3829d0d3f54, type: 3}
+--- !u!114 &-7176297257646762404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1654371712224710447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4e1bc165288b3a4a90d155f3228785c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!54 &1654371712224710442
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -238,20 +250,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.16446048, y: 0.15768588, z: 0.16220233}
   m_Center: {x: -0.0022582114, y: 0.0011290908, z: 0.0011291057}
---- !u!114 &3153565776619309244
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1654371712224710447}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50bcbfa5d28b68e4cad23031acf5af59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BloxGO: {fileID: 9147960869414022513}
-  PlantGO: {fileID: 1888393213911067650}
 --- !u!1 &1654371713231653263
 GameObject:
   m_ObjectHideFlags: 0
