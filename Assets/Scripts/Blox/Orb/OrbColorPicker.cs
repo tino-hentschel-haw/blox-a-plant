@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace blox
+namespace blox.orb
 {
     public class OrbColorPicker : MonoBehaviour
     {
@@ -50,10 +50,19 @@ namespace blox
         {
             if(!orb.Selected)
                 return;
-            
-            if (!other.CompareTag("colorSelector"))
-                return;
 
+            var handColorSelector = other.GetComponent<HandColorSelector>();
+            if(!handColorSelector)
+                return;
+            
+            // if (!other.CompareTag("colorSelector"))
+            //     return;
+
+            transform.localRotation = handColorSelector.OrbColorPickerRotationOtherHand;
+            
+            
+            Debug.Log(handColorSelector.OrbColorPickerRotationOtherHand);
+            
             foreach (var colorPickerComponent in colorPickerComponents)
             {
                 colorPickerComponent.gameObject.SetActive(true);
@@ -62,8 +71,13 @@ namespace blox
 
         private void OnTriggerExit(Collider other)
         {
-            if (!other.CompareTag("colorSelector"))
+            var handColorSelector = other.GetComponent<HandColorSelector>();
+            if(!handColorSelector)
                 return;
+
+            
+            // if (!other.CompareTag("colorSelector"))
+            //     return;
 
             foreach (var colorPickerComponent in colorPickerComponents)
             {

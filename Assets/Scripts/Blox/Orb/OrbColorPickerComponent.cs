@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace blox
+namespace blox.orb
 {
     public class OrbColorPickerComponent : MonoBehaviour
     {
