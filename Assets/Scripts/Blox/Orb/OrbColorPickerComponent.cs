@@ -28,6 +28,8 @@ namespace blox.orb
                 return;
 
             OnColorSelect?.Invoke(this);
+            
+            // TODO Play Sound Color Selected in Color Picker
         }
 
         public void Select()

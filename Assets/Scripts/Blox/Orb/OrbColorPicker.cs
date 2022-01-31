@@ -59,14 +59,13 @@ namespace blox.orb
             //     return;
 
             transform.localRotation = handColorSelector.OrbColorPickerRotationOtherHand;
-            
-            
-            Debug.Log(handColorSelector.OrbColorPickerRotationOtherHand);
-            
+
             foreach (var colorPickerComponent in colorPickerComponents)
             {
                 colorPickerComponent.gameObject.SetActive(true);
             }
+            
+            // TODO Play Sound Color Picker Opened
         }
 
         private void OnTriggerExit(Collider other)
@@ -83,6 +82,8 @@ namespace blox.orb
             {
                 colorPickerComponent.gameObject.SetActive(false);
             }
+            
+            // TODO Play Sound Color Picker Closed
         }
 
         private void OnColorSelect(OrbColorPickerComponent colorPickerComponent)
