@@ -214,9 +214,11 @@ MonoBehaviour:
     Point: {fileID: 2853844676369773631}
     Tangent: {fileID: 2853844675000531379}
   bezierMeshGeneratorPrefab: {fileID: 8520070033279726431, guid: aab442db7aacd644e94930b7b7a1178f, type: 3}
+  transition: {fileID: 0}
   ConnectionBezierEnd:
     Point: {fileID: 2853844676369773631}
     Tangent: {fileID: 2853844675537913017}
+  connecting: {fileID: 0}
 --- !u!114 &2853844675211734847
 MonoBehaviour:
   m_ObjectHideFlags: 0
