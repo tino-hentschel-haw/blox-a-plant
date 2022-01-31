@@ -99,6 +99,8 @@ namespace blox.orb
             currentColorPickerComponent = colorPickerComponent;
             currentColorPickerComponent.Select();
             orb.SetColor(currentColorPickerComponent.Material.color);
+            
+            // TODO Play Sound Color Selected in Color Picker
         }
 
         private void PositionColorPickerComponents()
