@@ -8,11 +8,14 @@ namespace blox
         private MeshRenderer bloxMeshRenderer;
         private MeshRenderer plantMeshRenderer;
 
+        protected AudioSource[] audios;
+
         private void Awake()
         {
             var blox = GetComponent<Blox>();
             bloxMeshRenderer = blox.BloxGameObject.GetComponent<MeshRenderer>();
             plantMeshRenderer = blox.PlantGameObject.GetComponent<MeshRenderer>();
+            audios = GetComponents<AudioSource>();
         }
 
         public void SetColor(Color color)
@@ -20,7 +23,8 @@ namespace blox
             bloxMeshRenderer.material.color = color;
             plantMeshRenderer.material.color = color;
             
-            // TODO Play Sound when changing color here ...
+            //Coloring Sound
+            audios[2].Play();
         }
     }
 }

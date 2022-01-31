@@ -54,7 +54,8 @@ namespace blox
             blox.SetBezierStartToConnector();
             connectedBlox.Add(blox);
             
-            // TODO Play Sound when connecting blox here ...
+            //Connecting Sound
+            audios[0].Play();
         }
         
         public void DisconnectBlox(Blox blox)

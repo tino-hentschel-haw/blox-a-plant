@@ -28,6 +28,8 @@ namespace blox
         public bool InGeneratorZone { get; protected set; }
         public bool ConnectedToRoot { get; protected set; }
 
+        protected AudioSource[] audios;
+
         private void Awake()
         {
             rb = GetComponent<Rigidbody>();
@@ -35,6 +37,7 @@ namespace blox
             bezierMeshGenerator = Instantiate(bezierMeshGeneratorPrefab, Vector3.zero, Quaternion.identity);
             SetBezierStartToRoot();
             bezierMeshGenerator.gameObject.SetActive(false);
+            audios = GetComponents<AudioSource>();
         }
 
         protected virtual void OnTriggerEnter(Collider other)
@@ -48,7 +51,8 @@ namespace blox
 
             InGeneratorZone = true;
 
-            // TODO: Play Sound for entering generator zone here ...
+            //Entering Sound
+            audios[1].Play();
 
             var root = generatorZone.Root;
             root.AddBlox(this);
@@ -73,7 +77,8 @@ namespace blox
             if (!Selected)
                 return;
 
-            // TODO: Play Sound for exiting generator zone here ...
+            //Exit Sound
+            audios[1].Play();
 
             InGeneratorZone = false;
 
