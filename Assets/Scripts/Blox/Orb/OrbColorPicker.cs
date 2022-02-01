@@ -12,6 +12,8 @@ namespace blox.orb
 
         private OrbColorPickerComponent currentColorPickerComponent;
 
+        protected AudioSource[] colorAudios;
+
 
         private void OnEnable()
         {
@@ -38,6 +40,8 @@ namespace blox.orb
             {
                 colorPickerComponent.gameObject.SetActive(false);
             }
+
+            colorAudios = GetComponents<AudioSource>();
         }
 
         private void Update()
@@ -65,7 +69,9 @@ namespace blox.orb
                 colorPickerComponent.gameObject.SetActive(true);
             }
             
-            // TODO Play Sound Color Picker Opened
+            //Color Picker Opened Sound
+            colorAudios[0].Play();
+
         }
 
         private void OnTriggerExit(Collider other)
@@ -83,7 +89,8 @@ namespace blox.orb
                 colorPickerComponent.gameObject.SetActive(false);
             }
             
-            // TODO Play Sound Color Picker Closed
+            //Color Picker Closed Sound
+            colorAudios[0].Stop();
         }
 
         private void OnColorSelect(OrbColorPickerComponent colorPickerComponent)
@@ -100,7 +107,9 @@ namespace blox.orb
             currentColorPickerComponent.Select();
             orb.SetColor(currentColorPickerComponent.Material.color);
             
-            // TODO Play Sound Color Selected in Color Picker
+            //Color Selected Sound
+            colorAudios = GetComponents<AudioSource>();
+            colorAudios[1].Play();
         }
 
         private void PositionColorPickerComponents()
