@@ -1312,7 +1312,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f94870d3c390c9340a55538141835bae, type: 2}
+  - {fileID: 2100000, guid: 8fa634b286e649047885f916f709eeed, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1604,6 +1604,8 @@ MonoBehaviour:
   initialColorPickerComponent: {fileID: 6555864453241143463}
   radius: 0.15
   updateAtRuntime: 0
+  chooseColorSound: {fileID: 8300000, guid: 5c8bf65d2886f4f4880028715c3da3be, type: 3}
+  openColorPickerSound: {fileID: 8300000, guid: 79955feb580e4554e9974c184d9857bd, type: 3}
 --- !u!54 &6555864453078829007
 Rigidbody:
   m_ObjectHideFlags: 0

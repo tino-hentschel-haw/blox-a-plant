@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace blox.orb
@@ -10,10 +11,12 @@ namespace blox.orb
         [SerializeField] private float radius;
         [SerializeField] private bool updateAtRuntime;
 
+        [Header("Audio")] [SerializeField] private AudioClip chooseColorSound;
+        [SerializeField] private AudioClip openColorPickerSound;
+
         private OrbColorPickerComponent currentColorPickerComponent;
 
-        protected AudioSource[] colorAudios;
-
+        private AudioSource audioSrc;
 
         private void OnEnable()
         {
@@ -31,6 +34,11 @@ namespace blox.orb
             }
         }
 
+        private void Awake()
+        {
+            audioSrc = GetComponent<AudioSource>();
+        }
+
         private void Start()
         {
             PositionColorPickerComponents();
@@ -40,8 +48,6 @@ namespace blox.orb
             {
                 colorPickerComponent.gameObject.SetActive(false);
             }
-
-            colorAudios = GetComponents<AudioSource>();
         }
 
         private void Update()
@@ -52,13 +58,13 @@ namespace blox.orb
 
         private void OnTriggerEnter(Collider other)
         {
-            if(!orb.Selected)
+            if (!orb.Selected)
                 return;
 
             var handColorSelector = other.GetComponent<HandColorSelector>();
-            if(!handColorSelector)
+            if (!handColorSelector)
                 return;
-            
+
             // if (!other.CompareTag("colorSelector"))
             //     return;
 
@@ -68,19 +74,20 @@ namespace blox.orb
             {
                 colorPickerComponent.gameObject.SetActive(true);
             }
-            
-            //Color Picker Opened Sound
-            colorAudios[0].Play();
 
+            //Color Picker Opened Sound
+            // audioSrc.loop = true;
+            // audioSrc.clip = openColorPickerSound;
+            // audioSrc.Play();
         }
 
         private void OnTriggerExit(Collider other)
         {
             var handColorSelector = other.GetComponent<HandColorSelector>();
-            if(!handColorSelector)
+            if (!handColorSelector)
                 return;
 
-            
+
             // if (!other.CompareTag("colorSelector"))
             //     return;
 
@@ -88,9 +95,9 @@ namespace blox.orb
             {
                 colorPickerComponent.gameObject.SetActive(false);
             }
-            
+
             //Color Picker Closed Sound
-            colorAudios[0].Stop();
+            // audioSrc.Stop();
         }
 
         private void OnColorSelect(OrbColorPickerComponent colorPickerComponent)
@@ -106,10 +113,9 @@ namespace blox.orb
             currentColorPickerComponent = colorPickerComponent;
             currentColorPickerComponent.Select();
             orb.SetColor(currentColorPickerComponent.Material.color);
-            
+
             //Color Selected Sound
-            colorAudios = GetComponents<AudioSource>();
-            colorAudios[1].Play();
+            audioSrc.PlayOneShot(chooseColorSound);
         }
 
         private void PositionColorPickerComponents()
