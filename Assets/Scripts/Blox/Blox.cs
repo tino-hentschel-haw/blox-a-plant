@@ -21,6 +21,8 @@ namespace blox
         [SerializeField] private BezierMeshGenerator bezierMeshGeneratorPrefab;
         protected BezierMeshGenerator bezierMeshGenerator;
 
+        public BezierMeshGenerator BezierMeshGenerator => bezierMeshGenerator;
+
         protected Rigidbody rb;
         protected BoxCollider boxCollider;
 

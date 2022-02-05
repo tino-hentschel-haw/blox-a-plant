@@ -94,6 +94,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d24dc1c0a6c9ca4891ef5a706be05f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Generate: 1
   shape2D: {fileID: 11400000, guid: 54a2c787e3c940749a489132bc68d4a8, type: 2}
   edgeRingCount: 12
   edgeRingScale: 0.005
