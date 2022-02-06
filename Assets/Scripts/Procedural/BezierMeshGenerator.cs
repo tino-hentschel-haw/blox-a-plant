@@ -10,6 +10,7 @@ namespace blox.procedural
     [RequireComponent(typeof(MeshFilter))]
     public class BezierMeshGenerator : MonoBehaviour
     {
+        public bool Generate;
         [SerializeField] private Mesh2D shape2D;
         [Range(2, 32)] [SerializeField] private int edgeRingCount = 8;
 
@@ -32,6 +33,9 @@ namespace blox.procedural
 
         private void Awake()
         {
+            if (!Generate)
+                return;
+            
             mesh = new Mesh {name = "BezierMeshGenerator"};
             GetComponent<MeshFilter>().sharedMesh = mesh;
         }
@@ -40,6 +44,9 @@ namespace blox.procedural
 
         private void GenerateMesh()
         {
+            if (!Generate)
+                return;
+            
             mesh.Clear();
 
             // Vertices & Normals

@@ -8,23 +8,24 @@ namespace blox
         private MeshRenderer bloxMeshRenderer;
         private MeshRenderer plantMeshRenderer;
 
-        protected AudioSource[] audios;
+        [SerializeField] private AudioClip coloringSound;
+        private AudioSource audioSrc;
 
         private void Awake()
         {
             var blox = GetComponent<Blox>();
             bloxMeshRenderer = blox.BloxGameObject.GetComponent<MeshRenderer>();
             plantMeshRenderer = blox.PlantGameObject.GetComponent<MeshRenderer>();
-            audios = GetComponents<AudioSource>();
+            audioSrc = GetComponent<AudioSource>();
         }
 
         public void SetColor(Color color)
         {
             bloxMeshRenderer.material.color = color;
             plantMeshRenderer.material.color = color;
-            
+
             //Coloring Sound
-            audios[2].Play();
+            audioSrc.PlayOneShot(coloringSound);
         }
     }
 }

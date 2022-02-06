@@ -42,7 +42,11 @@ namespace blox.orb
         private void Start()
         {
             PositionColorPickerComponents();
-            PickColor(initialColorPickerComponent);
+            // PickColor(initialColorPickerComponent);
+            // Pick initial Color without sound
+            currentColorPickerComponent = initialColorPickerComponent;
+            currentColorPickerComponent.Select();
+            orb.SetColor(currentColorPickerComponent.Material.color);
 
             foreach (var colorPickerComponent in colorPickerComponents)
             {
