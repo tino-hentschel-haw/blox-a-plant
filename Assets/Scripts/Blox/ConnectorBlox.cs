@@ -53,7 +53,8 @@ namespace blox
             connectedBlox.Add(blox);
             
             //Connecting Sound
-            audioSrc.PlayOneShot(addBloxSound);
+            if(audioSrc.isActiveAndEnabled)
+                audioSrc.PlayOneShot(addBloxSound);
         }
         
         public void DisconnectBlox(Blox blox)

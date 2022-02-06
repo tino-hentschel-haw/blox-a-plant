@@ -36,6 +36,7 @@ namespace blox
                 blox.transform.SetParent(plantGameObject.transform);
                 blox.BezierMeshGenerator.Generate = false;
                 blox.BezierMeshGenerator.enabled = false;
+                blox.GetComponent<AudioSource>().enabled = false;
 
                 // var meshGameObject = new GameObject("Generated Mesh from " + blox.BezierMeshGenerator.gameObject.name);
                 // meshGameObject.AddComponent<MeshFilter>();
