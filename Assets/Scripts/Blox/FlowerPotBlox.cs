@@ -59,7 +59,11 @@ namespace blox
         {
             if (other.gameObject.layer == LayerMask.NameToLayer("Ground") && Selected && HasPlant)
             {
-                Instantiate(plantGameObject, plantPoint.position, Quaternion.identity);
+                
+                var plant = Instantiate(plantGameObject, plantPoint.position, Quaternion.identity);
+                plant.transform.localRotation = Quaternion.Euler(new Vector3(0, Random.Range(0f, 360f), 0));
+                plant.AddComponent<Grow>();
+                
                 audioSrc.PlayOneShot(plantSound);
             }
 

@@ -1806,8 +1806,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1ab235342f85034288bf6c68c9de6b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flowerpotGameObject: {fileID: 0}
-  flowerpotEmptyGameObject: {fileID: 0}
+  flowerpotGameObject: {fileID: 2351725569512172971}
+  flowerpotEmptyGameObject: {fileID: 2351725570822064875}
   plantAttach: {fileID: 2351725571436753733}
   plantTriggerZone: {fileID: 2351725570709743127}
   plantPoint: {fileID: 2351725571263230707}
