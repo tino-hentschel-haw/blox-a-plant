@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using blox.procedural;
 using UnityEngine;
@@ -55,7 +53,7 @@ namespace blox
             connectedBlox.Add(blox);
             
             //Connecting Sound
-            audios[0].Play();
+            audioSrc.PlayOneShot(addBloxSound);
         }
         
         public void DisconnectBlox(Blox blox)

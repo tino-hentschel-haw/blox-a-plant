@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
@@ -6,11 +5,16 @@ namespace blox
 {
     public class FlowerPotBlox : MonoBehaviour
     {
-        [SerializeField] protected GameObject bloxGameObject;
+        [SerializeField] protected GameObject flowerpotGameObject;
+        [SerializeField] protected GameObject flowerpotEmptyGameObject;
         [SerializeField] protected Transform plantAttach;
         [SerializeField] protected GameObject plantTriggerZone;
         [SerializeField] protected Transform plantPoint;
-        
+
+        [Header("Audio")] [SerializeField] private AudioClip plantSound;
+        [SerializeField] private AudioClip transitionSound;
+        private AudioSource audioSrc;
+
         private GameObject plantGameObject;
         public bool HasPlant { get; private set; }
 
@@ -21,12 +25,12 @@ namespace blox
             get => selected;
             protected set
             {
-                if(plantGameObject)
+                if (plantGameObject)
                     plantGameObject.SetActive(value);
-                
-                if(plantTriggerZone)
+
+                if (plantTriggerZone)
                     plantTriggerZone.SetActive(value);
-                
+
                 selected = value;
             }
         }
@@ -36,6 +40,7 @@ namespace blox
         private void Awake()
         {
             xrGrabInteractable = GetComponent<XRGrabInteractable>();
+            audioSrc = GetComponent<AudioSource>();
         }
 
         private void OnEnable()
@@ -50,23 +55,14 @@ namespace blox
             xrGrabInteractable.selectExited.RemoveListener(OnSelectExited);
         }
 
-        private void OnCollisionEnter(Collision other)
-        {
-            if (other.collider.gameObject.layer == LayerMask.NameToLayer("Ground") && Selected && HasPlant)
-            {
-                Debug.Log("Ground Col: " + other.contacts[0].point);
-
-                Instantiate(plantGameObject, other.contacts[0].point, Quaternion.identity);
-            }
-        }
-
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.layer == LayerMask.NameToLayer("Ground") && Selected && HasPlant)
             {
                 Instantiate(plantGameObject, plantPoint.position, Quaternion.identity);
+                audioSrc.PlayOneShot(plantSound);
             }
-            
+
             if (!Selected)
                 return;
 
@@ -90,7 +86,12 @@ namespace blox
 
             HasPlant = true;
 
+            flowerpotGameObject.SetActive(true);
+            flowerpotEmptyGameObject.SetActive(false);
+
             root.ClearAllBlox();
+            
+            audioSrc.PlayOneShot(transitionSound);
         }
 
         private void OnSelectEntered(SelectEnterEventArgs eventArgs)

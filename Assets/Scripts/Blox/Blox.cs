@@ -11,8 +11,7 @@ namespace blox
         [SerializeField] protected GameObject plantGameObject;
         public GameObject BloxGameObject => bloxGameObject;
         public GameObject PlantGameObject => plantGameObject;
-
-
+        
         [FormerlySerializedAs("bezierStart")] [SerializeField]
         protected CubicBezierPart bezierStartRoot;
 
@@ -30,7 +29,10 @@ namespace blox
         public bool InGeneratorZone { get; protected set; }
         public bool ConnectedToRoot { get; protected set; }
 
-        protected AudioSource[] audios;
+        
+        [Header("Audio")] [SerializeField] protected AudioClip addBloxSound;
+        [SerializeField] private AudioClip transitionSound;
+        protected AudioSource audioSrc;
 
         private void Awake()
         {
@@ -39,7 +41,7 @@ namespace blox
             bezierMeshGenerator = Instantiate(bezierMeshGeneratorPrefab, Vector3.zero, Quaternion.identity);
             SetBezierStartToRoot();
             bezierMeshGenerator.gameObject.SetActive(false);
-            audios = GetComponents<AudioSource>();
+            audioSrc = GetComponent<AudioSource>();
         }
 
         protected virtual void OnTriggerEnter(Collider other)
@@ -54,7 +56,7 @@ namespace blox
             InGeneratorZone = true;
 
             //Entering Sound
-            audios[1].Play();
+            audioSrc.PlayOneShot(transitionSound);
 
             var root = generatorZone.Root;
             root.AddBlox(this);
@@ -80,7 +82,7 @@ namespace blox
                 return;
 
             //Exit Sound
-            audios[1].Play();
+            audioSrc.PlayOneShot(transitionSound);
 
             InGeneratorZone = false;
 
